@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Dashboard</title>
+    {% load staticfiles %}
+    <link rel="stylesheet" href="{% static 'css/admin.css' %}">
+    <link rel="shortcut icon" type="image/png" href="{{STATIC_URL}}/favicon"/>
+    <meta charset="UTF-8">
+</head>
+<body>
+    <div class='container-fluid'>
+        <div class='row' id='header'>
+            <div class='col-xs-2 col-xs-offset-1 col-md-2 col-md-offset-1' id='logo'>
+                <h2>Test App</h2>
+            </div>
+            <div id='nav_wrapper' class='col-xs-6 col-md-6'>
+                <ul id='nav_bar'>
+                    <li><a href='/dashboard'><h3>Dashboard</h3></a></li>
+                    <li><a href='/users/edit/'><h3>Profile</h3></a></li>
+                </ul>
+            </div>
+            <div class='col-xs-2 col-md-2' id='right_header'>
+                <a href='/logoff'><h3>Log Off</h3></a>
+            </div>
+        </div>
+    </div>
+    <div class='container'>
+        <div class='row'>
+            <div class='col-xs-5 col-xs-offset-1'>
+                <h3>{{user.first_name}} {{user.last_name}}</h3>
+                <h4>Registered at: {{user.created_at}}</h4>
+                <h4>User ID: #{{user.id}}</h4>
+                <h4>Email Address: {{user.email}}</h4>
+                <h4>Description: {{user.description}}</h4>
+            </div>
+        </div>
+        <div class='row'>
+            <div class='col-xs-10 col-xs-offset-1'>
+                <form action='/users/show/post_message/{{user.id}}' method='post'>
+                    {% csrf_token %}
+                    <div class='form-group'>
+                        <label for='message'>Leave a message for {{user.first_name}}</label>
+                        <textarea name='message' class='form-control' id='message'></textarea>
+                    </div>
+                    <input class="btn btn-success pull-right" type="submit" value="Post">
+                </form>
+            </div>
+        </div>
+        {% for message in messages %}
+        <div class='row'>
+            <div class='col-xs-11 col-xs-offset-1'>
+                <h4>{{message.poster.first_name}} {{message.poster.last_name}} wrote:</h4>
+                <div class='col-xs-11 message_wrapper'>
+                    <h3 class='messages'>{{message.content}}</h3>
+                </div>
+                <div class='row'>
+                    {% for comment in comments %}
+                        {% if comment.message_id == message %}
+                            <div class='row'>
+                                <div class='col-xs-11'>
+                                    <h5 class='comment_text'>{{message.poster.first_name}} {{message.poster.last_name}} wrote:</h5>
+                                    <div class='col-xs-11'>
+                                        <h5 class='comments'>{{comment.content}}</h5>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                    <div class='col-xs-10'>
+                        <form action='/users/show/post_comment/{{user.id}}/{{message.id}}' method='post'>
+                            {% csrf_token %}
+                            <div class='form-group'>
+                                <textarea name='comment' class='form-control' id='comment'></textarea>
+                            </div>
+                            <input class="btn btn-success pull-right" type="submit" value="Post">
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</body>
+</html>

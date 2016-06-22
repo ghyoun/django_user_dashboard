@@ -1,0 +1,38 @@
+@import url("https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css");
+
+#header {
+    border-bottom: 3px solid black;
+
+}
+#logo {
+    width: 160px !important;
+}
+#nav_wrapper {
+    padding-left: 0px !important;
+    padding-top: 5px !important;
+}
+
+#nav_bar {
+    list-style-type: none;
+    padding-left: 0px !important;
+    display: inline !important;
+}
+    #nav_bar li {
+        display: inline-block;
+        margin-right: 15px;
+    }
+
+#welcome {
+    background-color: lightsteelblue;
+    border: 1px solid cadetblue;
+    padding-top: 15px;
+    padding-bottom: 25px;
+    margin-top: 15px;
+    margin-bottom: 15px;
+}
+
+.info {
+    display: inline-block !important;
+    width: 33% !important;
+    vertical-align: top;
+}
